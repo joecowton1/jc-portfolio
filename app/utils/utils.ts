@@ -3,7 +3,8 @@ import path from 'path'
 
 type Metadata = {
   title: string
-  publishedAt: string
+  startDate: string
+  endDate: string 
   summary: string
   image?: string
 }
@@ -49,15 +50,23 @@ function getMDXData(dir) {
   })
 }
 
-export function getBlogPosts() {
-  return getMDXData(path.join(process.cwd(), 'app', 'blog', 'posts'))
+export function getPosts() {
+  return getMDXData(path.join(process.cwd(), 'app', 'experience', 'posts'))
 }
 
 export function formatDate(date: string, includeRelative = false) {
+
+
+
   let currentDate = new Date()
+  if (!date) {
+    return 'Ongoing'
+  } 
+
   if (!date.includes('T')) {
     date = `${date}T00:00:00`
   }
+
   let targetDate = new Date(date)
 
   let yearsAgo = currentDate.getFullYear() - targetDate.getFullYear()
@@ -77,8 +86,7 @@ export function formatDate(date: string, includeRelative = false) {
   }
 
   let fullDate = targetDate.toLocaleString('en-us', {
-    month: 'long',
-    day: 'numeric',
+    month: 'short',
     year: 'numeric',
   })
 
@@ -86,5 +94,5 @@ export function formatDate(date: string, includeRelative = false) {
     return fullDate
   }
 
-  return `${fullDate} (${formattedDate})`
+  return `${yearsAgo} -> ${yearsAgo})`
 }

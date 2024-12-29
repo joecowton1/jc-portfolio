@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation'
 import { CustomMDX } from 'app/components/mdx'
-import { formatDate, getBlogPosts } from 'app/blog/utils'
+import { formatDate, getPosts } from 'app/utils/utils'
 import { baseUrl } from 'app/sitemap'
 
 export async function generateStaticParams() {
-  let posts = getBlogPosts()
+  let posts = getPosts()
 
   return posts.map((post) => ({
     slug: post.slug,
@@ -12,14 +12,14 @@ export async function generateStaticParams() {
 }
 
 export function generateMetadata({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug)
+  let post = getPosts().find((post) => post.slug === params.slug)
   if (!post) {
     return
   }
 
   let {
     title,
-    publishedAt: publishedTime,
+    endDate: publishedTime,
     summary: description,
     image,
   } = post.metadata
@@ -35,7 +35,7 @@ export function generateMetadata({ params }) {
       description,
       type: 'article',
       publishedTime,
-      url: `${baseUrl}/blog/${post.slug}`,
+      url: `${baseUrl}/experience/${post.slug}`,
       images: [
         {
           url: ogImage,
@@ -51,8 +51,8 @@ export function generateMetadata({ params }) {
   }
 }
 
-export default function Blog({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug)
+export default function Posts({ params }) {
+  let post = getPosts().find((post) => post.slug === params.slug)
 
   if (!post) {
     notFound()
@@ -68,13 +68,13 @@ export default function Blog({ params }) {
             '@context': 'https://schema.org',
             '@type': 'BlogPosting',
             headline: post.metadata.title,
-            datePublished: post.metadata.publishedAt,
-            dateModified: post.metadata.publishedAt,
+            datePublished: post.metadata.startDate,
+            dateModified: post.metadata.startDate,
             description: post.metadata.summary,
             image: post.metadata.image
               ? `${baseUrl}${post.metadata.image}`
               : `/og?title=${encodeURIComponent(post.metadata.title)}`,
-            url: `${baseUrl}/blog/${post.slug}`,
+            url: `${baseUrl}/experience/${post.slug}`,
             author: {
               '@type': 'Person',
               name: 'My Portfolio',
@@ -82,14 +82,15 @@ export default function Blog({ params }) {
           }),
         }}
       />
+      <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">
+        {formatDate(post.metadata.startDate)} {`->`} {formatDate(post.metadata.endDate)}
+      </p>
       <h1 className="title font-semibold text-2xl tracking-tighter">
         {post.metadata.title}
       </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {formatDate(post.metadata.publishedAt)}
-        </p>
-      </div>
+      <h2 className="text-lg tracking-tighter mb-2">
+        {post.metadata.summary}
+      </h2>
       <article className="prose">
         <CustomMDX source={post.content} />
       </article>
