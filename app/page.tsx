@@ -1,21 +1,20 @@
-import { BlogPosts } from 'app/components/posts'
+import { Posts } from 'app/components/posts'
 
 export default function Page() {
   return (
     <section>
       <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
-        My Portfolio
+        Joe Cowton
       </h1>
-      <p className="mb-4">
-        {`I'm a Vim enthusiast and tab advocate, finding unmatched efficiency in
-        Vim's keystroke commands and tabs' flexibility for personal viewing
-        preferences. This extends to my support for static typing, where its
-        early error detection ensures cleaner code, and my preference for dark
-        mode, which eases long coding sessions by reducing eye strain.`}
+      <p className="mb-4 text-lg">
+        {`I’m a creative software engineer with a strong track record in people management, project delivery and mentoring.`}
       </p>
-      <div className="my-8">
-        <BlogPosts />
-      </div>
+      <p className="mb-4 text-lg">
+        {`Over the past seven years I've worked for both multi-nationals and small agencies, focussing primarily on Typescript, React and Node for web UIs and infrastrcuture. Most recently I’ve specialised in improving developer experience, building tooling and design systems to bring efficency and simpicity to engineers in adjacent teams.`}      
+      </p>
+      <p className="mb-4 text-lg">
+        {`Before working in software, I spent ten years touring the world as an electronic music producer, releasing numerous records and running a highly respected record label called Livity Sound.`}
+      </p>
     </section>
   )
 }
