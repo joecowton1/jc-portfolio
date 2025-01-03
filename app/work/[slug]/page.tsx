@@ -35,7 +35,7 @@ export function generateMetadata({ params }) {
       description,
       type: 'article',
       publishedTime,
-      url: `${baseUrl}/experience/${post.slug}`,
+      url: `${baseUrl}/work/${post.slug}`,
       images: [
         {
           url: ogImage,
@@ -74,7 +74,7 @@ export default function Posts({ params }) {
             image: post.metadata.image
               ? `${baseUrl}${post.metadata.image}`
               : `/og?title=${encodeURIComponent(post.metadata.title)}`,
-            url: `${baseUrl}/experience/${post.slug}`,
+            url: `${baseUrl}/work/${post.slug}`,
             author: {
               '@type': 'Person',
               name: 'My Portfolio',
